@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+  aura-farm-os:
+    build: .
+    container_name: aura_farm_os
+    ports:
+      - "8000:8000"
+    environment:
+      - AURA_ENV=production
+      - AURA_PORT=8000
+      - AURA_LOG_LEVEL=INFO
+      - AURA_AUTO_START_CYCLE=true
+    volumes:
+      - farm_data:/app/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/api/health"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+
+volumes:
+  farm_data:
