@@ -19,9 +19,9 @@ if %ERRORLEVEL% NEQ 0 (
 echo [1/2] Connecting to GitHub repository...
 git remote set-url origin https://github.com/deshnajain614/aura-farm.git
 
-echo [2/2] Pushing files to main branch...
+echo [2/2] Pushing files and README to main branch...
 echo.
-git push -u origin main
+git push -f origin main
 
 echo.
 if %ERRORLEVEL% EQU 0 (
