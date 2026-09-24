@@ -6,6 +6,10 @@ Runs automated ticks of the 27-step closed-loop lifecycle and prints real-time s
 import argparse
 import time
 import sys
+import os
+
+# Ensure project root is in sys.path
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 # Ensure UTF-8 output encoding on Windows consoles
 if hasattr(sys.stdout, "reconfigure"):
