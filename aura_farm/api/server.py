@@ -96,7 +96,23 @@ async def websocket_telemetry(websocket: WebSocket):
         if websocket in connected_clients:
             connected_clients.remove(websocket)
 
-# Mount web dashboard
-web_dir = os.path.join(os.path.dirname(__file__), "..", "web")
+from fastapi.responses import FileResponse
+
+web_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "web"))
+
+@app.get("/")
+async def read_index():
+    index_file = os.path.join(web_dir, "index.html")
+    if os.path.exists(index_file):
+        return FileResponse(index_file)
+    return {"message": "AURA-Farm OS API is active. Web directory not found."}
+
+@app.get("/app.js")
+async def read_app_js():
+    js_file = os.path.join(web_dir, "app.js")
+    if os.path.exists(js_file):
+        return FileResponse(js_file, media_type="application/javascript")
+    return {"error": "app.js not found"}
+
 if os.path.exists(web_dir):
-    app.mount("/", StaticFiles(directory=web_dir, html=True), name="web")
+    app.mount("/static", StaticFiles(directory=web_dir), name="static")
